@@ -18,6 +18,9 @@
 		81BA817B1A49E0E500E65899 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81BA817A1A49E0E500E65899 /* SystemConfiguration.framework */; };
 		81BA817F1A49E0F000E65899 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 81BA817E1A49E0F000E65899 /* libstdc++.6.dylib */; };
 		D297EA721F37EBA800B2CDE3 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D297EA711F37EBA800B2CDE3 /* LoginVC.swift */; };
+		D297EA741F38063D00B2CDE3 /* Customer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D297EA731F38063D00B2CDE3 /* Customer.swift */; };
+		D297EA771F38081500B2CDE3 /* Mover.swift in Sources */ = {isa = PBXBuildFile; fileRef = D297EA761F38081500B2CDE3 /* Mover.swift */; };
+		D297EA791F39478E00B2CDE3 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = D297EA781F39478E00B2CDE3 /* Order.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +39,9 @@
 		81BA817E1A49E0F000E65899 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		81BA81801A49E10C00E65899 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
 		D297EA711F37EBA800B2CDE3 /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
+		D297EA731F38063D00B2CDE3 /* Customer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Customer.swift; sourceTree = "<group>"; };
+		D297EA761F38081500B2CDE3 /* Mover.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mover.swift; sourceTree = "<group>"; };
+		D297EA781F39478E00B2CDE3 /* Order.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +95,7 @@
 				81BA814C1A49DA1800E65899 /* ViewController.swift */,
 				814C3AC61B69877600E307BB /* Main.storyboard */,
 				D297EA711F37EBA800B2CDE3 /* LoginVC.swift */,
+				D297EA751F3807F000B2CDE3 /* Data */,
 			);
 			name = moveMyApt;
 			path = ParseStarterProject;
@@ -115,6 +122,16 @@
 				81BA81761A49E0D500E65899 /* libsqlite3.dylib */,
 			);
 			name = "System Frameworks";
+			sourceTree = "<group>";
+		};
+		D297EA751F3807F000B2CDE3 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				D297EA761F38081500B2CDE3 /* Mover.swift */,
+				D297EA731F38063D00B2CDE3 /* Customer.swift */,
+				D297EA781F39478E00B2CDE3 /* Order.swift */,
+			);
+			name = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -189,9 +206,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D297EA791F39478E00B2CDE3 /* Order.swift in Sources */,
 				81BA814D1A49DA1800E65899 /* ViewController.swift in Sources */,
 				81BA814B1A49DA1800E65899 /* AppDelegate.swift in Sources */,
+				D297EA771F38081500B2CDE3 /* Mover.swift in Sources */,
 				D297EA721F37EBA800B2CDE3 /* LoginVC.swift in Sources */,
+				D297EA741F38063D00B2CDE3 /* Customer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
