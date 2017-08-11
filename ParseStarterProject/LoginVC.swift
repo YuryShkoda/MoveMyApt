@@ -1,10 +1,12 @@
 //
 //  LoginVC.swift
-//  moveMyApt
+//  MoveMyStuff
 //
 //  Created by Yury on 8/6/17.
 //  Copyright © 2017 Parse. All rights reserved.
 //
+
+//TODO: add phone number at sign up
 
 import UIKit
 import Parse
