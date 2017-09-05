@@ -6,18 +6,15 @@
 //  Copyright © 2017 Parse. All rights reserved.
 //
 
-//TODO: get data from PFUser.current()
 import Foundation
 
-struct Customer {
+class Customer {
     
-    let id: String
-    var email: String
-    var name: String
+    static var sharedInstance = Customer()
     
-    init(id: String, email: String, name: String) {
-        self.id = id
-        self.email = email
-        self.name = name
-    }
+    private init() {}
+    
+    var id: String?    = nil
+    var email: String? = nil
+    var name: String?  = nil
 }

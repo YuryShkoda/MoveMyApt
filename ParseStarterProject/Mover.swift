@@ -8,20 +8,14 @@
 
 import Foundation
 
-struct Mover {
+class Mover {
     
-    let id: String
-    var email: String
-    var name: String
-    var rating: Double
-    var isActive: Bool
+    static var sharedInstance = Mover()
     
-    init(id: String, email: String, name: String, rating: Double, isActive: Bool) {
-        
-        self.id = id
-        self.email = email
-        self.name = name
-        self.rating = rating
-        self.isActive = isActive
-    }
+    private init() {}
+    
+    var id: String?     = nil
+    var email: String?  = nil
+    var isActive: Bool? = nil
+    var name: String?   = nil
 }

@@ -84,8 +84,23 @@ class OrderVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPi
     
     @IBAction func creatOrder(_ sender: Any) {
         
-        let order = Order(id: "id", email: "email", name: "name", date: date.text!, pickUpAddress: moveFrom.text!, dropOffAddress: moveTo.text!, pickUpStairs: pickUpStairs.isOn, dropOffStairs: dropOffStairs.isOn)
-        print(order)
+        for subView in self.view.subviews as [UIView] {
+            if let textField = subView as? UITextField {
+                if textField.text == "" {
+                    textField.layer.borderWidth = 1
+                    textField.layer.borderColor = UIColor.red.cgColor
+                }
+            } else if let label = subView as? UILabel {
+                if label.text == "" {
+                    label.layer.borderWidth = 1
+                    label.layer.borderColor = UIColor.red.cgColor
+                }
+            }
+        }
+        
+        let customer = Customer.sharedInstance
+        let order = Order(customerID: customer.id, isActive: true, email: customer.email, date: date.text!, pickUpAddress: moveFrom.text!, dropOffAddress: moveTo.text!, pickUpStairs: pickUpStairs.isOn, dropOffStairs: dropOffStairs.isOn, stuff: size.text!)
+        order.save()
     }
     
     func presentPlaceAutocomplete() {
@@ -98,11 +113,15 @@ class OrderVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPi
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle =  DateFormatter.Style.medium
         date.text = dateFormatter.string(from: sender.date)
-        datePicker.isHidden = true
+//        datePicker.isHidden = true
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        sizePicker.delegate = self
+        sizePicker.reloadAllComponents()
+        sizePicker.selectRow(3, inComponent: 0, animated: true)
         
         let dateGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleDateTap(gestureRecognizer:)))
         date.isUserInteractionEnabled = true
@@ -115,15 +134,14 @@ class OrderVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPi
     
     //FIXME: need to write one func to handle taps
     func handleDateTap(gestureRecognizer: UIGestureRecognizer) {
+        sizePicker.isHidden = true
         datePicker.isHidden = false
         datePicker.datePickerMode = UIDatePickerMode.date
     }
     
     func handleSizeTap(gestureRecognizer: UIGestureRecognizer){
+        datePicker.isHidden = true
         sizePicker.isHidden = false
-        sizePicker.delegate = self
-        sizePicker.reloadAllComponents()
-        sizePicker.selectRow(3, inComponent: 0, animated: true)
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -140,7 +158,6 @@ class OrderVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPi
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         size.text = " " + aptSize[row]
-        sizePicker.isHidden = true
     }
 
     override func didReceiveMemoryWarning() {

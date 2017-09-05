@@ -7,33 +7,65 @@
 //
 
 import Foundation
+import Parse
 
-struct Order {
+class Order {
     
-    let id: String
-    var email: String
-    var name: String
-    var date: String
-    var pickUpAddress: String
-    var dropOffAddress: String
-    var pickUpStairs: Bool
-    var dropOffStairs: Bool
-    //var restrictions: String
-    //var stuff: [String: Int]
-    //var isActive: Bool
+    var id: String?
+    var isActive: Bool?
+    let customerID: String?
+    var email: String?
+    var stuff: String?
+    var date: String?
+    var pickUpAddress: String?
+    var dropOffAddress: String?
+    var pickUpStairs: Bool?
+    var dropOffStairs: Bool?
     
-    init(id: String, email: String, name: String, date: String, pickUpAddress: String, dropOffAddress: String, pickUpStairs: Bool, dropOffStairs: Bool) {
+    init(id: String? = nil, customerID: String? = nil, isActive: Bool? = nil, email: String? = nil, date: String? = nil, pickUpAddress: String? = nil, dropOffAddress: String? = nil, pickUpStairs: Bool? = nil, dropOffStairs: Bool? = nil, stuff: String? = nil) {
         
         self.id = id
+        self.customerID = customerID
+        self.isActive = isActive
         self.email = email
-        self.name = name
         self.date = date
         self.pickUpAddress = pickUpAddress
         self.dropOffAddress = dropOffAddress
         self.pickUpStairs = pickUpStairs
         self.dropOffStairs = dropOffStairs
-//        self.restrictions = restrictions
-//        self.stuff = stuff
-//        self.isActive = isActive
+        self.stuff = stuff
+    }
+    
+    func save() {
+        
+        let order = PFObject(className: "MoveMyStuff_orders")
+        order["CustomerID"]     = self.customerID
+        order["IsActive"]       = self.isActive
+        order["Email"]          = self.email
+        order["Date"]           = self.date
+        order["PickUpAddress"]  = self.pickUpAddress
+        order["DropOffAddress"] = self.dropOffAddress
+        order["PickUpStairs"]   = self.pickUpStairs
+        order["DropOffStairs"]  = self.dropOffStairs
+        order["Stuff"]          = self.stuff
+        
+        let acl = PFACL()
+        acl.getPublicReadAccess  = true
+        acl.getPublicWriteAccess = true
+        
+        order.saveInBackground { (success, error) in
+            if error != nil {
+                var errorMessage = "Saving Order failed!!!"
+                let error = error as NSError?
+                
+                if let parseError = error?.userInfo["error"] as? String {
+                    errorMessage = parseError
+                }
+                //TODO: show error to user
+                print(errorMessage)
+            } else {
+                self.id = order.objectId
+            }
+        }
     }
 }

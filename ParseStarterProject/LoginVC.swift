@@ -71,8 +71,21 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         } else {
                             print("logged in!!!!")
                             if self.isCustomer {
+                                
+                                let customer   = Customer.sharedInstance
+                                customer.id    = user?.objectId
+                                customer.email = self.email.text!
+                                customer.name  = self.name.text!
+                                
                                 self.performSegue(withIdentifier: "toCustomerMainViewSegue", sender: nil)
                             } else {
+                                
+                                let mover      = Mover.sharedInstance
+                                mover.email    = self.email.text!
+                                mover.id       = user?.objectId
+                                mover.isActive = user?.object(forKey: "isActive") as? Bool
+                                mover.name     = user?.object(forKey: "Name") as? String
+                                
                                 self.performSegue(withIdentifier: "toMoverMainViewSegue", sender: nil)
                             }
                         }
