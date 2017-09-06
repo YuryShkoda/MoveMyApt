@@ -14,7 +14,8 @@ class Offer {
     var id: String?
     var moverID = Mover.sharedInstance.id
     var moverName = Mover.sharedInstance.name
-    var order = Order()
+    var orderID: String?
+    var customerID: String?
     var status: String?
     var total: Int?
     
@@ -27,15 +28,15 @@ class Offer {
         
         let offer = PFObject(className: "MoveMyStuff_offers")
         offer["MoverID"]    = self.moverID
-        offer["OrderID"]    = order.id
-        offer["CustomerID"] = order.customerID
+        offer["OrderID"]    = self.orderID
+        offer["CustomerID"] = self.customerID
         offer["MoverName"]  = self.moverName
         offer["Status"]     = self.status
         offer["Total"]      = self.total
         
-        let acl = PFACL()
-        acl.getPublicReadAccess  = true
-        acl.getPublicWriteAccess = true
+//        let acl = PFACL()
+//        acl.getPublicReadAccess  = true
+//        acl.getPublicWriteAccess = true
         
         offer.saveInBackground { (success, error) in
             if error != nil {

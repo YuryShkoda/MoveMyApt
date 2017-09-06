@@ -56,7 +56,15 @@ class OffersVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("click!")
+        selectedOffer = offers[indexPath.row]
+        performSegue(withIdentifier: "showOfferSegue", sender: nil)
     }
-
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showOfferSegue" {
+            if let offerDetailsVC = segue.destination as? OfferDetailsVC {
+                 offerDetailsVC.offer = selectedOffer
+            }
+        }
+    }
 }

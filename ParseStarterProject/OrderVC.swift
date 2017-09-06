@@ -99,7 +99,7 @@ class OrderVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPi
         }
         
         let customer = Customer.sharedInstance
-        let order = Order(customerID: customer.id, isActive: true, email: customer.email, date: date.text!, pickUpAddress: moveFrom.text!, dropOffAddress: moveTo.text!, pickUpStairs: pickUpStairs.isOn, dropOffStairs: dropOffStairs.isOn, stuff: size.text!)
+        let order = Order(customerID: customer.id, status: "Pending", email: customer.email, date: date.text!, pickUpAddress: moveFrom.text!, dropOffAddress: moveTo.text!, pickUpStairs: pickUpStairs.isOn, dropOffStairs: dropOffStairs.isOn, stuff: size.text!)
         order.save()
     }
     

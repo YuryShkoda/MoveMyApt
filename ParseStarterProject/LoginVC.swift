@@ -13,7 +13,7 @@ import Parse
 
 class LoginVC: UIViewController, UITextFieldDelegate {
     
-    var isLogin = true
+    var isLogin    = true
     var isCustomer = true
 
     @IBOutlet weak var userType: UISegmentedControl!
@@ -24,9 +24,10 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var alertLabel: UILabel!
     @IBOutlet weak var loginSignupButton: UIButton!
     @IBOutlet weak var loginSignupSwitcher: UIButton!
+    @IBOutlet weak var phone: UITextField!
     
     @IBAction func userTypeSwitched(_ sender: Any) {
-        isCustomer = false
+        if isCustomer { isCustomer = false } else { isCustomer = true }
     }
     
     @IBAction func loginSignupButtonClicked(_ sender: Any) {
@@ -69,24 +70,29 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                             }
                             self.alertLabel.text = errorMessage
                         } else {
-                            print("logged in!!!!")
-                            if self.isCustomer {
+                            if let userType = user?.object(forKey: "UserType") as? String {
                                 
-                                let customer   = Customer.sharedInstance
-                                customer.id    = user?.objectId
-                                customer.email = self.email.text!
-                                customer.name  = self.name.text!
-                                
-                                self.performSegue(withIdentifier: "toCustomerMainViewSegue", sender: nil)
-                            } else {
-                                
-                                let mover      = Mover.sharedInstance
-                                mover.email    = self.email.text!
-                                mover.id       = user?.objectId
-                                mover.isActive = user?.object(forKey: "isActive") as? Bool
-                                mover.name     = user?.object(forKey: "Name") as? String
-                                
-                                self.performSegue(withIdentifier: "toMoverMainViewSegue", sender: nil)
+                                if self.isCustomer && userType == "Customer" {
+                                    
+                                    let customer   = Customer.sharedInstance
+                                    customer.id    = user?.objectId
+                                    customer.email = self.email.text!
+                                    customer.name  = self.name.text!
+                                    
+                                    self.performSegue(withIdentifier: "toCustomerMainViewSegue", sender: nil)
+                                } else if !self.isCustomer && userType == "Mover" {
+                                    
+                                    let mover      = Mover.sharedInstance
+                                    mover.email    = self.email.text!
+                                    mover.id       = user?.objectId
+                                    mover.isActive = user?.object(forKey: "isActive") as? Bool
+                                    mover.name     = user?.object(forKey: "Name") as? String
+                                    
+                                    self.performSegue(withIdentifier: "toMoverMainViewSegue", sender: nil)
+                                } else {
+                                    self.alertLabel.text     = "Wrong user type!"
+                                    self.alertLabel.isHidden = false
+                                }
                             }
                         }
                     })
@@ -96,11 +102,11 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                     user.username = email.text!
                     user.password = password.text!
                     
-                    let acl = PFACL()
-                    acl.getPublicReadAccess = true
-                    acl.getPublicWriteAccess = true
+//                    let acl = PFACL()
+//                    acl.getPublicReadAccess = true
+//                    acl.getPublicWriteAccess = true
                     
-                    user.acl = acl
+//                    user.acl = acl
                     
                     user.signUpInBackground(block: { (success, error) in
                         
@@ -116,7 +122,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         } else {
                             if self.isCustomer {
                                 
-                                PFUser.current()?["Name"] = self.name.text!
+                                PFUser.current()?["Name"]     = self.name.text!
+                                PFUser.current()?["Phone"]    = self.phone.text!
+                                PFUser.current()?["UserType"] = "Customer"
                                 PFUser.current()?.saveInBackground(block: { (success, error) in
                                     
                                     if error != nil {
@@ -135,8 +143,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                                 })
                             } else {
                                 
-                                PFUser.current()?["Name"] = self.name.text!
-                                PFUser.current()?["Rating"] = 0
+                                PFUser.current()?["Name"]     = self.name.text!
+                                PFUser.current()?["Phone"]    = self.phone.text!
+                                PFUser.current()?["UserType"] = "Mover"
                                 PFUser.current()?["isActive"] = false
                                 PFUser.current()?.saveInBackground(block: { (success, error) in
                                     
@@ -178,15 +187,17 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         if isLogin {
             loginSignupButton.setTitle("Sign up", for: .normal)
             loginSignupSwitcher.setTitle("or login", for: .normal)
-            isLogin = false
+            isLogin         = false
+            name.alpha      = 1
+            phone.alpha     = 1
             password2.alpha = 1
-            name.alpha = 1
         } else {
             loginSignupButton.setTitle("Login", for: .normal)
             loginSignupSwitcher.setTitle("or sign up", for: .normal)
-            isLogin = true
+            isLogin         = true
+            name.alpha      = 0
+            phone.alpha     = 0
             password2.alpha = 0
-            name.alpha = 0
         }
     }
     

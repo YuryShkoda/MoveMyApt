@@ -13,15 +13,18 @@ class OrdersVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     let dataController = DataController()
     var selectedOrder = Order()
     var orders = [Order]()
+    var offers = [Offer]()
     
     @IBOutlet weak var ordersTable: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        dataController.getOffers(moverID: Mover.sharedInstance.id!)
         dataController.getActiveOrders()
         
         _ = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { (timer) in
             print("get orders")
+            self.dataController.getOffers(moverID: Mover.sharedInstance.id!)
             self.dataController.getActiveOrders()
         })
         NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: Notification.Name("refreshOrdersList"), object: nil)
@@ -29,6 +32,7 @@ class OrdersVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     func refresh() {
         orders = dataController.orders
+        offers = dataController.offers
         ordersTable.reloadData()
     }
     
@@ -69,6 +73,16 @@ class OrdersVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             cell.fromLabel?.text = "From: " + orders[indexPath.row].pickUpAddress!
             cell.toLabel?.text   = "To: " + orders[indexPath.row].dropOffAddress!
             cell.sizeLabel?.text = "Stuff: " + orders[indexPath.row].stuff!
+            if offers.count > 0 {
+                for offer in offers {
+                    if offer.orderID == orders[indexPath.row].id {
+                        cell.status?.text = "Status: offered $" + String(describing: offer.total!)
+                        continue
+                    } else {
+                        cell.status?.text = "Status: No offer"
+                    }
+                }
+            }
         }
         return cell
     }

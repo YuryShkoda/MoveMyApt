@@ -23,9 +23,10 @@ class OfferVC: UIViewController, UITextFieldDelegate {
 
     @IBAction func createOffer(_ sender: Any) {
         if offerTotal.text != "" {
-            offer.status = "Pending"
-            offer.total  = Int(offerTotal.text!)
-            offer.order  = order
+            offer.status     = "Pending"
+            offer.total      = Int(offerTotal.text!)
+            offer.orderID    = order.id
+            offer.customerID = order.customerID
             offer.save()
         } else {
             offerTotal.layer.borderWidth = 1
@@ -47,7 +48,7 @@ class OfferVC: UIViewController, UITextFieldDelegate {
             stuffToMove.text = "Stuff to move: " + order.stuff!
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
